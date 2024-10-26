@@ -1,0 +1,89 @@
+.productDisplay {
+    margin: 0;
+    padding: 0;
+}
+
+.buttonsContainer .btn {
+    width: 150px;
+    height: 50px;
+    padding: 2px;
+    text-decoration: none;
+}
+
+.btn-link {
+    text-decoration: none;
+}
+
+.label {
+    font-weight: 700;
+}
+
+/* products.css */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.searchInput
+{
+    border-radius: 15px !important;
+ 
+}
+.productsListTable
+{
+
+    width: 82.5vw !important;
+
+}
+td,th
+{
+    width: fit-content !important;
+}
+.addProductButton
+{
+    background-color: #007bff;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+}
+.productCard
+{
+    background-color: #fff;
+    width: 18rem !important;
+    border-radius: 10px;
+}
+.productsShow
+{
+    height: fit-content;
+}
+.productsDisplayer
+{
+    display: flex;
+    column-gap: 10px;
+    row-gap: 10px; 
+    justify-content: center;
+    width: 80vw !important;
+
+   height: 100%;
+
+}
+.showProductDetails,
+.buyProduct
+{
+    width: 150px !important;
+    text-decoration: none !important;
+    padding: 10px;
+}
+.contentContainer
+{
+    position: relative;
+    left: 250px;
+    width: 82vw ;
+}
