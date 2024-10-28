@@ -81,3 +81,9 @@ body {
     color: lightblue;
     font-size: 20px;
 }
+.dataContent
+{
+    position: relative;
+    left: 250px;
+    width: 80vw;
+}

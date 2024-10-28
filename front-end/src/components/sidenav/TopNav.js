@@ -2,10 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaBell } from 'react-icons/fa';
 import { CiSettings } from "react-icons/ci";
 import flag from "../../images/flag.png";
+import { CgProfile } from "react-icons/cg";
 import { Link } from 'react-router-dom';
 import { IoIosNotifications } from "react-icons/io";
+import { FaBloggerB } from "react-icons/fa6";
+
 
 import { FaCartArrowDown } from "react-icons/fa";
+import { CiLogout } from "react-icons/ci";
 
 import axios from 'axios';
 import { useNotificationContext } from '../../views/context/NotificationContext';
@@ -158,12 +162,13 @@ function TopNav() {
 
                         <div className="dropdown">
                             {isOpen && (
-                                <div className="dropdown-menu">
-                                    <Link to={`/profile/${userId}`} className="dropdown-item">Profile</Link>
-                                    <Link to={`/history/${userId}`} className="dropdown-item">history</Link>
-
+                                <div className="menuDropDown ">
+                                    <div>                                    <Link to={`/profile/${userId}`} className="dropdown-item"> <CgProfile className='mx-1' />Profile</Link>
+                                    </div>
+                                    <div>                                    <Link to={`/history/${userId}`} className="dropdown-item"><FaBloggerB className='mx-1' />History</Link>
+                                    </div>
                                     <div className="dropdown-item" onClick={handleLogout}>
-                                        Logout
+                                    <CiLogout className='mx-1' />  Logout
                                     </div>                                </div>
                             )}
                         </div>

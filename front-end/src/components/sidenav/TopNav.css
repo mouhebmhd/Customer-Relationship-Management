@@ -236,3 +236,24 @@ button[type="button"]:hover {
 {
   background-color: var(--bs-danger) !important;
 }
+.menuDropDown
+{
+  position: absolute;
+  top:50px;
+  left: -125px;
+  z-index: 1;
+  background-color: #0C2556;
+  display: flex;
+  width: 125px;
+  flex-direction: column;
+  row-gap: 5px;
+  font-size: 18px;
+  color: #fff;
+  border-radius: 15px;
+}
+.menuDropDown div 
+{
+  background-color: #0F2F6B;
+  width: 100%;
+  padding: 5px;
+}

@@ -240,10 +240,10 @@ function Profile() {
             <SideBar />
             <div className="container-fluid flex-column">
                 <TopBar />
-                <div className="container-fluid p-2">
-                    <div className="row m-0 p-0">
-                        <div className="profile-card col-md-3">
-                            <div>
+                <div className="container-fluid p-2 ">
+                    <div className="row m-0 p-0 dataContent ">
+                        <div className="profile-card col-md-3 ">
+                            <div className=''>
                                 {role === 'admin' && photo_admin && (
                                     <img src={photo_admin} alt="Admin Photo" style={{ width: '200px', height: '200px' }} />
                                 )}

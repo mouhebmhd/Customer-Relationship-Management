@@ -98,6 +98,7 @@ function Commands() {
 
 
   useEffect(() => {
+    console.log(isAdmin)
     if (searchTerm) {
       searchCommands(searchTerm, currentPage);
     } else {
@@ -190,7 +191,7 @@ function Commands() {
                 <thead>
                   <tr>
                     <th>Id</th>
-                    <th>Description</th>
+                    <th>Description </th>
                     <th>Date</th>
                     <th>Amount</th>
                     <th>Address</th>
@@ -231,7 +232,7 @@ function Commands() {
                         {(isAdmin || (userPermissions && userPermissions.updateCommande === 1)) && ( // Add parentheses here
 
                           <button type="button" 
-                            className="  mr-2 d-flex"
+                            className="mr-2 d-flex"
                             id='updateButton'
                             onClick={() => updateCommandStatus(command.idcommande, command.statut_commande)}
                           >

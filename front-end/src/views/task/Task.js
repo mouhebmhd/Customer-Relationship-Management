@@ -239,7 +239,7 @@ function Task() {
                                 <CiMenuKebab />
                               </div>
                               {isOpen[task.id] && (
-                                <div className="dropdown-menu">
+                                <div className="">
                                   <div className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleUpdate(task, 'update')}>
                                     <FaDoorOpen />
                                   </div>
