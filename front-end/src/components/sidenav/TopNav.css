@@ -127,13 +127,9 @@ button[type="button"]:hover {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-  color: black;
   cursor: pointer;
 }
 
-.dropdown-item:hover {
-  background-color: #f1f1f1;
-}
 
 /*notification-profilenotification-profile*/
 
@@ -248,7 +244,6 @@ button[type="button"]:hover {
   flex-direction: column;
   row-gap: 5px;
   font-size: 18px;
-  color: #fff;
   border-radius: 15px;
 }
 .menuDropDown div 
@@ -256,4 +251,17 @@ button[type="button"]:hover {
   background-color: #0F2F6B;
   width: 100%;
   padding: 5px;
+  border-radius: 15px;  
+  color: #fff !important;
+
+}
+.menuItemText
+{
+  margin-inline: 3px;
+  
+}
+.menuItemText,.miniIcon
+{
+  color: #fff ;
+  
 }

@@ -94,9 +94,6 @@ function Commands() {
       setLoading(false);
     }
   }, [config]);
-
-
-
   useEffect(() => {
     console.log(isAdmin)
     if (searchTerm) {
