@@ -153,9 +153,10 @@ function TopNav() {
     <div className="row m-0 p-0 ">
       <div className="w-100  navbarIcons navbar m-0 p-1 d-flex  navbar p-2">
         <div className="icons  d-flex column-gap-2">
-          <Link to="/cart" className="basket">
+          <Link to="/cart" className="basket ">
             <i className="basketIcon">
               <FaCartArrowDown />
+            
             </i>
           </Link>
         </div>

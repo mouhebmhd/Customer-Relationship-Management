@@ -198,7 +198,10 @@ button[type="button"]:hover {
 }
 .basketIcon
 {
-  font-size: 20px;
+  position: relative;
+  left: 250px;
+  font-size: 22px !important;
+ 
 }
 .arrowIcon
 {
@@ -264,4 +267,19 @@ button[type="button"]:hover {
 {
   color: #fff ;
   
+}
+.completeCommandContainer
+{
+  position: relative;
+  left: 250px;
+  width: 80vw;
+  
+}
+#passCommandBtn
+{
+  color: #fff !important;
+  background-color: #28A745 !important;
+  position: relative;
+  left:35vw;
+  border: none !important;
 }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FaCheckDouble } from "react-icons/fa6";
+
 import { useLocation } from 'react-router-dom';
 import './TopNav.css';
 import SideBar from '../sidebar/SideBar';
@@ -114,7 +116,7 @@ function CompleteCommand(props) {
                     {loading ? (
                         <div>Loading...</div>
                     ) : command ? (
-                        <div className="formContainer m-0  ps-2 pt-0">
+                        <div className="formContainer m-0  ps-2 pt-0 completeCommandContainer">
                             <div className="row">
                                 <div className="col-md-4">
                                     <div className="form-group">
@@ -194,7 +196,7 @@ function CompleteCommand(props) {
 
 
 
-                            <button className="btn btn-primary" onClick={handlePassCommand}>Pass Command</button>
+                            <button className="btn " id="passCommandBtn" onClick={handlePassCommand}><FaCheckDouble className='mx-1'/> Pass Command</button>
 
                         </div>
 
