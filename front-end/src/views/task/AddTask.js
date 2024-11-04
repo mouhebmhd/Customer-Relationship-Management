@@ -5,7 +5,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Autocomplete from 'react-autocomplete';
 import io from "socket.io-client";
-
+import "./addTaskModal.css"
 
 
 
@@ -181,7 +181,7 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
   };
 
   return (
-    <div className="modal fade h-80 v-80" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal  addTaskModal fade h-80 v-80" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">

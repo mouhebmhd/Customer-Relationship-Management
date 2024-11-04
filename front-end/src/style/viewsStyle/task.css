@@ -55,3 +55,11 @@
   {
     font-weight: 600;
   }
+#addButtonTask
+{
+  background-color: #6060FF !important;
+  border: none !important;
+  width: 250px !important;
+  position: relative;
+  left: 80%;
+}

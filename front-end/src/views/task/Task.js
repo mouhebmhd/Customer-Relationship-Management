@@ -198,10 +198,10 @@ function Task() {
   return (
     <div className="d-flex">
       <SideBar />
-      <div className="container-fluid flex-column">
+      <div className="container-fluid flex-column ">
         <TopBar />
         {/* Button to open add task modal */}
-        <button className="btn btn-success mr-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleUpdate('val', 'ajouter')}>
+        <button className="btn btn-success mr-2  w-100" id="addButtonTask" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleUpdate('val', 'ajouter')}>
           Add Task
         </button>
 
