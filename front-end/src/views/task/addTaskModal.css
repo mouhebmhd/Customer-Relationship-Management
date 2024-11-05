@@ -4,3 +4,8 @@ position: relative;
 left: 50vw !important;
 top: 50vh !important;
 }
+#selectEmployeeBtn
+{
+    background-color: #6066ED !important;
+    border: none !important;
+}

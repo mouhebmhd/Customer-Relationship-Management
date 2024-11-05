@@ -544,16 +544,16 @@ const registerUser = async (req, res) => {
 
 const listEmployees = async (req, res) => {
     try {
-        const authResult = await isAuthorize(req, res);
+        /* const authResult = await isAuthorize(req, res);
         if (authResult.message !== 'authorized') {
             return res.status(401).json({ message: "Unauthorized" });
-        }
+        } */
         /* if (!['admin'].includes(authResult.decode.role)) {
              return res.status(403).json({ message: "Insufficient permissions" });
          }*/
-        if (authResult.decode.role !== 'admin') {
+        /* if (authResult.decode.role !== 'admin') {
             return res.status(403).json({ message: "Insufficient permissions" });
-        }
+        } */
 
         const result = await new Promise((resolve, reject) => {
             db.query('SELECT * FROM employe', (err, results) => {

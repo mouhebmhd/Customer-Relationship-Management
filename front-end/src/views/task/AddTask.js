@@ -3,11 +3,8 @@ import axios from 'axios';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import Autocomplete from 'react-autocomplete';
 import io from "socket.io-client";
-import "./addTaskModal.css"
-
-
+import "./addTaskModal.css";
 
 function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
   const [loading, setLoading] = useState(false);
@@ -22,23 +19,18 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
   });
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
 
   const role = localStorage.getItem('role');
   const token = localStorage.getItem('token');
   const email = localStorage.getItem('email');
   const userid = localStorage.getItem('userId');
 
-
-
   const [employees, setEmployees] = useState([]);
 
-
-  const [selectedEmployees, setSelectedEmployees] = useState([]);
-
-
   const socket = io.connect("http://localhost:8000");
-
 
   const config = useMemo(() => ({
     headers: { Authorization: `Bearer ${token}` },
@@ -50,7 +42,6 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
       try {
         const response = await axios.get('http://127.0.0.1:4000/api/employees', config);
         setEmployees(response.data);
-        console.log('(response.data)', response.data)
       } catch (err) {
         console.error('Error fetching employees:', err);
       }
@@ -65,8 +56,6 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
     if (selectedTask) {
       const parsedContent = JSON.parse(selectedTask.messageTache);
       setEditorState(EditorState.createWithContent(convertFromRaw(parsedContent)));
-
-      console.log('Selected Task:', selectedTask); // Log task details
       setFormData({
         id: selectedTask.id,
         title: selectedTask.title,
@@ -76,16 +65,13 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
         messageTache: selectedTask.messageTache
       });
 
-      // Set selected employees from the task (assuming `employe_names` is a string of names)
       const employeeIds = selectedTask.employe_names.split(',').map(name => {
         const emp = employees.find(emp => `${emp.nom_employe} ${emp.prenom_employe}` === name.trim());
         return emp ? emp.idemploye : null;
       }).filter(id => id);
 
       setSelectedEmployees(employeeIds);
-      setSearchTerm(''); // Reset search term on task load
     } else {
-      // Reset form data when no task is selected
       setFormData({
         id: '',
         title: '',
@@ -96,10 +82,8 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
       });
       setEditorState(EditorState.createEmpty());
       setSelectedEmployees([]);
-      setSearchTerm('');
     }
   }, [selectedTask, employees]);
-
 
   const handleRemoveEmployee = (idEmploye) => {
     setSelectedEmployees(selectedEmployees.filter((id) => id !== idEmploye));
@@ -116,13 +100,21 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSelect = (value) => {
-    const selectedEmp = employees.find(emp => emp.idemploye.toString() === value);
-    if (selectedEmp && !selectedEmployees.includes(selectedEmp.idemploye)) {
-      setSelectedEmployees([...selectedEmployees, selectedEmp.idemploye]);
-      setSearchTerm(''); // Clear search term after selection
-    } else if (selectedEmp && selectedEmployees.includes(selectedEmp.idemploye)) {
-      setSelectedEmployees(selectedEmployees.filter((id) => id !== selectedEmp.idemploye));
+  const handleSelectEmployee = (idEmploye) => {
+    if (idEmploye && !selectedEmployees.includes(idEmploye)) {
+      setSelectedEmployees([...selectedEmployees, idEmploye]);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    if (e.target.value) {
+      const filtered = employees.filter((employee) =>
+        `${employee.nom_employe} ${employee.prenom_employe}`.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setFilteredEmployees(filtered);
+    } else {
+      setFilteredEmployees([]);
     }
   };
 
@@ -148,7 +140,6 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
       } else {
         response = await axios.post('http://127.0.0.1:4000/api/createTask', data, config);
         socket.emit('createTask', { ...data, email, userid, role, selectedEmployees });
-
       }
 
       if (Array.isArray(response.data)) {
@@ -181,7 +172,7 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
   };
 
   return (
-    <div className="modal  addTaskModal fade h-80 v-80" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal addTaskModal fade h-80 v-80" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
@@ -206,21 +197,27 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
               </div>
               <div className="form-group">
                 <label htmlFor="employees">Employees:</label>
-                <Autocomplete
-                  getItemValue={(item) => item.idemploye.toString()}
-                  items={employees.filter((employee) =>
-                    `${employee.nom_employe} ${employee.prenom_employe}`.toLowerCase().includes(searchTerm.toLowerCase())
-                  )}
-                  renderItem={(item, isHighlighted) => (
-                    <div key={item.idemploye} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                      {item.nom_employe} {item.prenom_employe}
-                    </div>
-                  )}
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search employees..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onSelect={handleSelect}
-                  inputProps={{ className: 'form-control' }}
+                  onChange={handleSearchChange}
                 />
+                <ul className="list-group mt-2" style={{ maxHeight: '150px', overflowY: 'auto' }}>
+                  {(searchTerm ? filteredEmployees : employees).map((employee) => (
+                    <li key={employee.idemploye} className="list-group-item d-flex justify-content-between align-items-center">
+                      {employee.nom_employe} {employee.prenom_employe}
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-sm" id="selectEmployeeBtn"
+                        onClick={() => handleSelectEmployee(employee.idemploye)}
+                      >
+                        Add
+                      </button>
+                    </li>
+                  ))}
+                </ul>
                 <div>
                   {selectedEmployees.map((idEmploye) => {
                     const employee = employees.find((emp) => emp.idemploye === idEmploye);
@@ -249,36 +246,53 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
               </div>
               <div className="form-group">
                 <label htmlFor="priorite">Priority:</label>
-                <select className="form-control" id="priorite" name="priorite" value={formData.priorite} onChange={handleChange} required>
+                <select
+                  className="form-control"
+                  id="priorite"
+                  name="priorite"
+                  value={formData.priorite}
+                  onChange={handleChange}
+                  required
+                >
                   <option value="">Select Priority</option>
-                  <option value="urgence">Urgent</option>
-                  <option value="importance">Important</option>
-                  <option value="routine">Routine</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
                 </select>
               </div>
               <div className="form-group">
                 <label htmlFor="statut">Status:</label>
-                <select className="form-control" id="statut" name="statut" value={formData.statut} onChange={handleChange} required>
+                <select
+                  className="form-control"
+                  id="statut"
+                  name="statut"
+                  value={formData.statut}
+                  onChange={handleChange}
+                  required
+                >
                   <option value="">Select Status</option>
-                  <option value="To-Do">To-Do</option>
-                  <option value="In-Progress">In-Progress</option>
-                  <option value="Done">Done</option>
+                  <option value="pending">Pending</option>
+                  <option value="in-progress">In Progress</option>
+                  <option value="completed">Completed</option>
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="messageTache">Task Message:</label>
+                <label htmlFor="messageTache">Message:</label>
                 <Editor
                   editorState={editorState}
                   onEditorStateChange={handleEditorChange}
+                  wrapperClassName="editor-wrapper"
+                  editorClassName="editor"
+                  toolbarClassName="editor-toolbar"
                 />
               </div>
-              <button type="submit" className="btn btn-primary" disabled={loading}>
-                {loading ? 'Saving...' : 'Save Task'}
-              </button>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Close</button>
+                <button type="submit" className="btn btn-primary" disabled={loading}>
+                  {loading ? 'Loading...' : 'Save Task'}
+                </button>
+              </div>
             </form>
-          </div>
-          <div className="modal-footer">
-            <button id="closeButton" type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -287,3 +301,4 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
 }
 
 export default AddTask;
+
