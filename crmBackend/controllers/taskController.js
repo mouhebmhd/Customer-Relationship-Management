@@ -96,9 +96,9 @@ const getAllTasks = async (req, res) => {
             return res.status(401).json({ message: "Unauthorized" });
         } */
 
-        if (authResult.decode.role !== 'admin' && authResult.decode.role !== 'employe') {
+        /* if (authResult.message=="Unauthorized") {
             return res.status(403).json({ message: "Insufficient permissions" });
-        }
+        } */
 
         const query = `
         SELECT 

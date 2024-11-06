@@ -143,7 +143,7 @@ function Home() {
                 </button>
               )}
             </div>
-            <img class="imageHeroSection" src={storyData[0].image_url} alt="Our Story" />
+            <img className="imageHeroSection" src={storyData[0].image_url} alt="Our Story" />
           </div>
         )}
 

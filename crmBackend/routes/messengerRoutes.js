@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/getNotification', messengerController.getNotifications);
 router.put('/updateSeenNotification', messengerController.updateSeenNotification);
-router.get('/getUnreadCount', messengerController.getUnreadCount);
+router.get('/getUnreadCount/:email', messengerController.getUnreadCount);
 router.delete('/deleteNotification/:id', messengerController.deleteNotification);
 router.get('/searchNotifications', messengerController.searchNotifications);
 

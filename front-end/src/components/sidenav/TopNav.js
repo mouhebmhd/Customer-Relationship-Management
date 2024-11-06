@@ -61,7 +61,7 @@ function TopNav() {
     const fetchUnreadCount = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:4000/api/getUnreadCount/${email}`,
+          `http://localhost:4000/api/getUnreadCount/${email}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -82,7 +82,7 @@ function TopNav() {
   const fetchNotifications = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:4000/api/getNotification",
+        "http://localhost:4000/api/getNotification",
         {
           headers: {
             Authorization: `Bearer ${token}`,

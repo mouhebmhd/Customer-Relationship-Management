@@ -34,22 +34,39 @@ function Task() {
   }), [token]);
 
   const fetchTasks = useCallback(async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:4000/api/getAllTasks', config);
-      const tasksByStatus = {
+    var tasksByStatus = {
         "To-Do": [],
         "In-Progress": [],
         "Done": []
       };
+    try {
+      const response = await axios.get('http://localhost:4000/api/getAllTasks', config);
+      console.log(response)
+      
 
       response.data.forEach(task => {
-        tasksByStatus[task.statut].push(task);
+        console.log(task.statut);
+      
+        // Normalize the task status to lower case and trim any spaces
+        const statusKey = task.statut.trim();
+      
+        // Check if the array for the statusKey exists
+        if (tasksByStatus[statusKey]) {
+          // If it exists, push the task to the existing array
+          tasksByStatus[statusKey].push(task);
+        } else {
+          // If it doesn't exist, initialize it with the task
+          tasksByStatus[statusKey] = [task];
+        }
+      
         // Initialize isOpen state for each task
         setIsOpen(prevState => ({
           ...prevState,
           [task.id]: false
         }));
       });
+      
+      
 
       console.log('Fetched tasks:', tasksByStatus);
       setTasks(tasksByStatus);
@@ -214,7 +231,7 @@ function Task() {
           setTasks={setTasks}
         />
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <div className="columns-container tasksContainer d-flex flex-wrap">
+          <div className="columns-container tasksContainer d-flex flex-wrap align-items-start">
             {Object.keys(tasks).map((status) => (
               <Droppable key={status} droppableId={status}>
                 {(provided) => (
