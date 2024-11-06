@@ -7,27 +7,18 @@ const { saveToHistory, getEmailById } = require('./callback');
 
 
 const createTask = async (req, res) => {
+    
     try {
-        const authResult = await isAuthorize(req, res);
-
-        if (authResult.message !== 'authorized') {
-            return res.status(401).json({ message: "Unauthorized" });
-        }
-
-        if (authResult.decode.role !== 'admin' && authResult.decode.role !== 'employe') {
-            return res.status(403).json({ message: "Insufficient permissions" });
-        }
-
         const { idEmployes, title, messageTache, deadline, statut, priorite } = req.body;
 
         // Validate status and priority
-        if (!['To-Do', 'In-Progress', 'Done'].includes(statut)) {
+       /* if (!['To-Do', 'In-Progress', 'Done'].includes(statut)) {
             return res.status(400).json({ message: "Invalid status" });
         }
         if (!['urgence', 'importance', 'routine'].includes(priorite)) {
             return res.status(400).json({ message: "Invalid priority" });
         }
-
+        */
         // Log the received data
         console.log('Received data:', req.body);
 
@@ -52,9 +43,9 @@ const createTask = async (req, res) => {
                     console.error('Database error:', err);
                     return res.status(500).json({ error: err.message });
                 }
-                const userId = authResult.decode.id;
+               /*  const userId = authResult.decode.id;
                 const userRole = authResult.decode.role;
-                saveToHistory('task created', userId, userRole);
+                saveToHistory('task created', userId, userRole); */
                 res.status(201).json({ message: 'Tâche créée avec succès', id: taskId, title });
 
 
@@ -99,15 +90,15 @@ const getTaskById = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
     try {
-        const authResult = await isAuthorize(req, res);
+          const authResult = await isAuthorize(req, res);
         console.log(authResult)
-     /*    if (authResult.message !== 'authorized') {
+       /* if (authResult.message !== 'authorized') {
             return res.status(401).json({ message: "Unauthorized" });
-        }
-*/
+        } */
+
         if (authResult.decode.role !== 'admin' && authResult.decode.role !== 'employe') {
             return res.status(403).json({ message: "Insufficient permissions" });
-        } 
+        }
 
         const query = `
         SELECT 
