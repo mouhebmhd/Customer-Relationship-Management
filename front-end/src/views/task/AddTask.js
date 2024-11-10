@@ -138,7 +138,8 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
       if (selectedTask) {
         response = await axios.put(`http://127.0.0.1:4000/api/updateTask/${selectedTask.id}`, data, config);
       } else {
-        response = await axios.post('http://127.0.0.1:4000/api/createTask', data, config);
+        console.log(data)
+      response = await axios.post('http://127.0.0.1:4000/api/createTask', data, config);
         socket.emit('createTask', { ...data, email, userid, role, selectedEmployees });
       }
 
@@ -255,9 +256,9 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
                   required
                 >
                   <option value="">Select Priority</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
+                  <option value="routine">Low</option>
+                  <option value="importance">Medium</option>
+                  <option value="urgence">High</option>
                 </select>
               </div>
               <div className="form-group">
@@ -271,9 +272,9 @@ function AddTask({ selectedTask, fetchTasks, tasks, setTasks }) {
                   required
                 >
                   <option value="">Select Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="in-progress">In Progress</option>
-                  <option value="completed">Completed</option>
+                  <option value="To-Do">Pending</option>
+                  <option value="In-Progress">In Progress</option>
+                  <option value="Done">Completed</option>
                 </select>
               </div>
               <div className="form-group">

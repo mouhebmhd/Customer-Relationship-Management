@@ -41,6 +41,7 @@ function Task() {
       };
     try {
       const response = await axios.get('http://localhost:4000/api/getAllTasks', config);
+      console.log(tasks)
       console.log(response)
       
 
