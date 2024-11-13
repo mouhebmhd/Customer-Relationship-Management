@@ -64,7 +64,7 @@ function SpamMessages() {
     return (
         <div className="d-flex">
             <SideBar />
-            <div className="container-fluid flex-column">
+            <div className="container-fluid flex-column messageContainerCstm">
                 <TopBar />
                 <div className="container-fluid p-2 d-flex">
                     <div className="conversation">
