@@ -308,7 +308,7 @@ const val= 8000;
   /* Function to analyze the message
   const analyseMessage = async (message) => {
     try {
-      const response = await axios.post('http://127.0.0.1:5001/api/predictSpam', { message });
+      const response = await axios.post('http://127.0.0.1:9000/api/predictSpam', { message });
       console.log('Spam Prediction Response:', response.data);
       return response.data.prediction;
     } catch (error) {
