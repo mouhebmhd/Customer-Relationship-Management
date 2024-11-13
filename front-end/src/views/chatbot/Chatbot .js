@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import axios from "axios";
 import "../../style/viewsStyle/Chatbot.css";
 import io from "socket.io-client";
 import EmojiPicker from 'emoji-picker-react';
-const socket = io.connect("http://localhost:8000");
 
 const Chatbot = () => {
     const [open, setOpen] = useState(false);
@@ -11,8 +10,8 @@ const Chatbot = () => {
     const [newMessage, setNewMessage] = useState("");
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-
-
+    const socket = useRef(null);
+    const isMounted = useRef(false);  // Track component mount status
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     const role = localStorage.getItem('role');
@@ -22,88 +21,66 @@ const Chatbot = () => {
             Authorization: `Bearer ${token}`,
         },
     }), [token]);
-    /*
-    useEffect(() => {
-        socket.on('receive', (message) => {
-            console.log('Message received:', message);
-            setMessages((prevMessages) => [...prevMessages, message]);
-        });
 
-        return () => {
-            socket.off('receive');  // Properly remove the event listener
-            socket.disconnect();    // Disconnect the socket
-        };
-    }, [socket]);
-*/
-   /* const fetchChatHistory = async () => {
+    const fetchChatHistory = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/chat-history', config);
-            setMessages(response.data);
+            const response = await axios.get('http://localhost:4000/api/chat-history', {
+                ...config,
+                params: {
+                    sender_id: userId,
+                    rolesender: role
+                }
+            });
+            if (isMounted.current) {  // Only update state if component is still mounted
+                setMessages(response.data);
+                const chatElement = document.querySelector(".chatbot-messages");
+                if (chatElement) {
+                    chatElement.scrollTop = chatElement.scrollHeight;
+                }
+            }
         } catch (error) {
             console.error('Error fetching chat history:', error);
         }
     };
-*/
-const fetchChatHistory = async () => {
-    try {
-        const response = await axios.get('http://localhost:4000/api/chat-history', {
-            ...config,  
-            params: {
-                sender_id: userId,
-                rolesender: role
-            }
-        });
-        setMessages(response.data);
-        const chatElement = document.getElementsByClassName("chatbot-messages")[0];
-        if (chatElement) {
-          chatElement.scrollTop = chatElement.scrollHeight;
-        } else {
-          console.warn('Chat element not found');
-        }
-    } catch (error) {
-        console.error('Error fetching chat history:', error);
-    }
-};
-
 
     useEffect(() => {
+        isMounted.current = true;  // Mark as mounted
+        socket.current = io.connect("http://localhost:8000");
+
+        socket.current.on('receive', (message) => {
+            if (isMounted.current) {  // Only update state if mounted
+                setMessages((prevMessages) => [...prevMessages, message]);
+            }
+        });
 
         fetchChatHistory();
 
-        // Setup the socket event listener
-        socket.on('receive', (message) => {
-            console.log('Message received:', message);
-            setMessages((prevMessages) => [...prevMessages, message]);
-        });
-
         return () => {
-            socket.off('receive');
-            socket.disconnect();
+            isMounted.current = false;  // Mark as unmounted
+            socket.current.off('receive');
+            socket.current.disconnect();
         };
-    }, [socket]);
+    }, []);
 
-
-
-    const handleSendMessage = async () => {
-        if (newMessage.trim() === '') return;
+    const handleSendMessage = () => {
+        if (!newMessage.trim()) return;
 
         const messageData = {
             sender_id: userId,
             rolesender: role,
             message: newMessage,
-            receiver_id: -1,  // Set to bot
+            receiver_id: -1,
             rolereciever: 'bot',
             is_sender_bot: false,
             is_receiver_bot: true
         };
-        socket.emit('send', messageData);
 
-        setMessages((prevMessages) => [
-            ...prevMessages,
-            messageData
-        ]);
+        socket.current.emit('send', messageData);
 
-        setNewMessage('');
+        if (isMounted.current) {  // Only update state if component is still mounted
+            setMessages((prevMessages) => [...prevMessages, messageData]);
+            setNewMessage('');
+        }
     };
 
     const handleEmojiPickerToggle = () => {
