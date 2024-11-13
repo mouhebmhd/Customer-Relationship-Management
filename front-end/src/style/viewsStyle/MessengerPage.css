@@ -265,5 +265,6 @@
 #messageContainerCstm
 {
     position: relative;
-    left: 250px;
+    left: 150px;
+    width: 80vh !important;
 }
