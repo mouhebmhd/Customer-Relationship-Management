@@ -262,7 +262,7 @@
     height: 50px;
     border-radius: 50%;
 }
-.messageContainerCstm
+#messageContainerCstm
 {
     position: relative;
     left: 250px;
