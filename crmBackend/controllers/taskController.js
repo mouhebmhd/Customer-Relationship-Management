@@ -109,6 +109,7 @@ const getAllTasks = async (req, res) => {
           t.statut, 
           t.priorite, 
           t.order, 
+          e.photo_employe,
           GROUP_CONCAT(CONCAT(e.nom_employe, ' ', e.prenom_employe) SEPARATOR ', ') AS employe_names
         FROM 
           tache t

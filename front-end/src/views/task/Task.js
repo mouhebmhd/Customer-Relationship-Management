@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from 'axios';
+import { HiMenuAlt2 } from "react-icons/hi";
+
+import { FaPlus } from "react-icons/fa6";
+import { LuClock7 } from "react-icons/lu";
 import SideBar from '../../components/sidebar/SideBar';
 import TopBar from '../../components/sidenav/TopNav';
 import { format } from 'date-fns';
@@ -192,6 +196,7 @@ function Task() {
       ...prevState,
       [taskId]: !prevState[taskId]
     }));
+
   };
 
 
@@ -219,9 +224,9 @@ function Task() {
       <div className="container-fluid flex-column ">
         <TopBar />
         {/* Button to open add task modal */}
-        <button className="btn btn-success mr-2  w-100" id="addButtonTask" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleUpdate('val', 'ajouter')}>
+        {/* <button className="btn btn-success mr-2  w-100" id="addButtonTask" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleUpdate('val', 'ajouter')}>
           Add Task
-        </button>
+        </button> */}
 
         {/* AddTask modal */}
         <AddTask
@@ -232,16 +237,19 @@ function Task() {
           setTasks={setTasks}
         />
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <div className="columns-container tasksContainer d-flex flex-wrap align-items-start">
+          <div className="columns-container tasksContainer  d-flex flex-wrap align-items-start">
             {Object.keys(tasks).map((status) => (
               <Droppable key={status} droppableId={status}>
                 {(provided) => (
                   <div
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    className="column"
+                    className="column "
                   >
-                    <h2>{status.replace('-', ' ')}</h2>
+                    <div className='d-flex  taskTitleCtr'>
+                      <div className='d-flex column-gap-2'>{status.replace('-', ' ') } <p id="tkCountContainer">{(tasks[status].length)}</p></div>
+                      <div><button className="mr-2  plusAddBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleUpdate('val', 'ajouter')}><FaPlus /></button></div>
+                      </div>
                     {orderBy(tasks[status], ['order'], ['asc']).map((task, taskIndex) => (
                       <Draggable key={task.id.toString()} draggableId={task.id.toString()} index={taskIndex}>
                         {(provided) => (
@@ -252,26 +260,41 @@ function Task() {
                             {...provided.dragHandleProps}
                             className="task-item"
                           >
-                            <div className="dropdown">
-                              <div className="icon1" onClick={() => toggleDropdown(task.id)}>
+                          <div className="taskHeader ">
+                          <div className=" editTaskDropdown dropdown">
+                              <div className="icon1 CiMenuKebab" onClick={() => toggleDropdown(task.id)}>
                                 <CiMenuKebab />
                               </div>
                               {isOpen[task.id] && (
-                                <div className="">
-                                  <div className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleUpdate(task, 'update')}>
-                                    <FaDoorOpen />
+                                <div className="btnMenuEditor ">
+                                  <div className="dropdown-item   edtTsk" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleUpdate(task, 'update')}>
+                                    <FaDoorOpen className='actionText '/> Edit
                                   </div>
-                                  <div className="dropdown-item" onClick={() => handleDelete(task.id)}><RiDeleteBinLine /></div>
+                                  <div className="dropdown-item btn-danger dltTsk" onClick={() => handleDelete(task.id)}>
+                                    <RiDeleteBinLine className='actionText '/> Delete
+                                    </div>
                                 </div>
                               )}
                             </div>
-                            <p><span>ID</span>: {task.id}</p>
-                            <p><span>Employé</span>: {task.employe_names}</p>
-                            <p><span>Title</span>: {task.title}</p>
-                            <p><span>Message</span>: {parseMessageTache(task.messageTache)}</p>
-                            <p><span>Deadline</span>: {formatDate(task.deadline)}</p>
-                            <p><span>Statut</span>: {task.statut}</p>
-                            <p><span>Priorité</span>: {task.priorite}</p>
+                            <p className='h5'>{task.title}</p>
+                          </div>
+                            <div className="taskBody p-1">
+                              <div className="taskDetail">
+                              <HiMenuAlt2 className='mx-1 menuIconCt'/>
+                            <LuClock7  className='mx-1 menuIconCt'/>
+                            <span>{
+                              new Date(task.deadline)
+                              .toLocaleDateString('en-GB', { year: 'numeric', month: 'short' })
+                              .replace('Jul', 'jul') // Convert to lowercase
+                              .replace('Aug', 'aug') // Convert to lowercase
+                              .replace('Sep', 'sep')
+                               // Convert to lowercase
+                              
+                              }</span>
+                              </div>
+                              <img src={task.photo_employe} className='photoEmployeTask' alt="" />
+                            </div>
+                        
                           </div>
                         )}
                       </Draggable>
