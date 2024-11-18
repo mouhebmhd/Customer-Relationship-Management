@@ -8,12 +8,13 @@ router.get("/getAllFactures", factureController.getAllFactures);
 router.put("/createInvoice",factureController.createInvoice);
 router.delete("/deleteInvoice/:idcommande", factureController.deleteInvoiceByCommandId);
 router.get("/getFactureOfClientAuthorized",factureController.getFactureOfClientAuthorized);
+router.get("/fetchPDFInvoice/",factureController.fetchPDFInvoice);
 
 
 router.post("/createPDFInvoice", factureController.creatPDFInvoice);
 router.get('/searchFactures', factureController.searchFactures);
 
-/////////////dashobore 
+/////////////dashobord 
 router.get("/totalrevenue",factureController.getTotalRevenue);
 
 router.get('/averageinvoicevalue', factureController.getAverageInvoiceValue);

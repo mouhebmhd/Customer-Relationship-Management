@@ -367,6 +367,7 @@ const creatPDFInvoice = async (req, res) => {
 
 const fetchPDFInvoice = async (req, res) => {
     const filePath = req.query.filePath;
+    console.log(req.query.filePath)
     if (!filePath) {
         return res.status(400).json({ message: "File path is missing" });
     }

@@ -30,11 +30,11 @@ function InvoicesDetails() {
             .then((response) => {
                 const { filePath } = response.data;
                 if (!filePath) throw new Error("File path is missing in the response");
-                
-                return axios.get('http://127.0.0.1:4000/api/fetchPDFInvoice', {
+                console.log(filePath)
+                 return axios.get('http://127.0.0.1:4000/api/fetchPDFInvoice/', {
                     params: { filePath },
                     responseType: 'blob',
-                });
+                }); 
             })
             .then((res) => {
                 const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
