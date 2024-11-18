@@ -243,6 +243,7 @@ const createInvoice = async (req, res) => {
         console.log(req.body)
         //sql autorisation select column descrption --> add automatique 
         // try 
+        
         const {
             date_facture,
             etat_facture,
@@ -251,6 +252,7 @@ const createInvoice = async (req, res) => {
             date_echeance,
             idcommande
         } = req.body;
+        console.log(req.body)
 
         const existingInvoice = await checkExistingInvoice(idcommande);
         const { montant_total_commande, metho_delivraison_commande } = await getTotalAmountAndDeliveryMethod(idcommande);
@@ -331,15 +333,15 @@ const deleteInvoiceByCommandId = async (req, res) => {
 const creatPDFInvoice = async (req, res) => {
     try {
         // Generate PDF using pdfTemplate and the data sent from the client
-        const createPDF = await new Promise((resolve, reject) => {
-            pdf.create(pdfTemplate(req.body), {}).toBuffer((err, buffer) => {
+       const createPDF = await new Promise((resolve, reject) => {
+            pdf.create(pdfTemplate(req.body.factureData,req.body.customers), {}).toBuffer((err, buffer) => {
                 if (err) {
                     reject(err);
                 } else {
                     resolve(buffer);
                 }
             });
-        });
+        }); 
 
         // Save the PDF file to a specific directory on the server
         const filePath = `${__dirname}/../pdfs/invoice.pdf`; // Specify the desired directory
@@ -352,7 +354,8 @@ const creatPDFInvoice = async (req, res) => {
 
 
             res.json({ filePath }); // Send the file path in the response
-        });
+       
+            });
 
 
     } catch (error) {

@@ -1,4 +1,4 @@
-module.exports = ({ facturesData, customers }) => {
+module.exports = (factureData, customers ) => {
     const today = new Date();
     return `
         <!doctype html>
@@ -13,33 +13,33 @@ module.exports = ({ facturesData, customers }) => {
            <body>
               <div class="invoice-box">
                  <!-- Invoice details -->
-                 <h2>Command {facturesData.description_commande}</h2>
+                 <h2>Command {factureData.description_commande}</h2>
                  <p>
-                     ID: ${facturesData.idcommande}
+                     ID: ${factureData.idcommande}
                      <br />
-                     Date: ${facturesData.date_commande}
+                     Date: ${factureData.date_commande}
                      <br />
-                     Total Amount: ${facturesData.montant_total_commande}
+                     Total Amount: ${factureData.montant_total_commande}
                      <br />
-                     Address: ${facturesData.adresselivraison_commande}
+                     Address: ${factureData.adresselivraison_commande}
                      <br />
-                     Payment Method: ${facturesData.modepaiement_commande}<br />
-                     Status: ${facturesData.statut_commande}
+                     Payment Method: ${factureData.modepaiement_commande}<br />
+                     Status: ${factureData.statut_commande}
                      <br />
-                     Delivery Date: ${facturesData.date_livraison_commande}
+                     Delivery Date: ${factureData.date_livraison_commande}
                      <br />
-                     Delivery Method: ${facturesData.metho_delivraison_commande}
+                     Delivery Method: ${factureData.metho_delivraison_commande}
                      <br />
                  </p>
                  <h2>Invoice Details</h2>
                  <p>
-                    ID: ${facturesData.idfacture}<br>
-                    Date: ${facturesData.date_facture}<br>
-                    Status: ${facturesData.etat_facture}<br>
-                    Total Amount: ${facturesData.montant_total_facture}<br>
-                    Payment Method: ${facturesData.methode_paiment_facture}<br>
-                    Due Date: ${facturesData.date_echeance}<br>
-                    Payment Status: ${facturesData.statut_paiement_facture}<br>
+                    ID: ${factureData.idfacture}<br>
+                    Date: ${factureData.date_facture}<br>
+                    Status: ${factureData.etat_facture}<br>
+                    Total Amount: ${factureData.montant_total_facture}<br>
+                    Payment Method: ${factureData.methode_paiment_facture}<br>
+                    Due Date: ${factureData.date_echeance}<br>
+                    Payment Status: ${factureData.statut_paiement_facture}<br>
                  </p>
 
                  <!-- Customer details -->
