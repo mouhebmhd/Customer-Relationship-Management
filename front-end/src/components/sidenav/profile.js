@@ -488,7 +488,7 @@ function Profile() {
                                             </div>
                                             <button type="submit" className="btn btn-primary">Search</button>
                                         </form>
-                                        <div className="notification-profile">
+                                        <div className="notification-profile ">
                                             {loading ? (
                                                 <div>Loading...</div>
                                             ) : notifications.length > 0 ? (

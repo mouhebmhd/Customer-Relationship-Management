@@ -60,7 +60,7 @@ function CommandDetails() {
                                 <div className="commandDetail"><span> ID : </span>{command.idcommande}<br /></div>
                                 <div className="commandDetail"><span>Date</span>{command.date_commande}<br /> </div> 
                                 <div className="commandDetail"><span>Total Amount: </span>{command.montant_total_commande}<br /></div>
-                                <div className="commandDetail"><span>Address: </span>{command.adresselivraison_commande}<br /></div>
+                                <div className="commandDetail"><span>Address: </span>{command.adresse_client}<br /></div>
                                 <div className="commandDetail"><span>Payment Method:</span> {command.modepaiement_commande}<br /></div>
                                 <div className="commandDetail"><span>Status:</span>
                                 <select
@@ -77,6 +77,9 @@ function CommandDetails() {
                                 <br /></div>
                                 <div className="commandDetail"><span>Delivery Date:</span> {command.date_livraison_commande}<br /></div>
                                 <div className="commandDetail"><span>Delivery Method: </span>{command.metho_delivraison_commande}<br /></div>
+                                <div className="commandDetail"><span>Nom Client : </span>{command.nom_client}<br /></div>
+                                <div className="commandDetail"><span>Prénom Client : </span>{command.prenom_client}<br /></div>
+                                <div className="commandDetail"><span>Télephone Client : </span>{command.telephone_client}<br /></div>
                                 <div className={style.buttonContainerF}>
                                 <button
                                     className={` ${style.buttonContainerFButton}`}

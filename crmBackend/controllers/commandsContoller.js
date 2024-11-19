@@ -325,7 +325,11 @@ const getCommandsByCommandId = async (req, res) => {
     const { CommandId } = req.params;
 
     // Construct SQL query with JOIN
-    const sqlQuery = 'SELECT * FROM commande WHERE idcommande = ?';
+    const sqlQuery =` SELECT * 
+    FROM commande, client 
+    WHERE idcommande = ? 
+    AND commande.client_idclient = client.idclient
+`;
     // Execute SQL query
     db.query(sqlQuery, [CommandId], (err, result) => {
         if (err) {

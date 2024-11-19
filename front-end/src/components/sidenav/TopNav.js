@@ -165,6 +165,7 @@ function TopNav() {
           <div className="icon1" onClick={handleNotificationClick}>
             <div className="notification-icon">
               <FaBell />
+  
               {unreadCount > 0 && (
                 <div className="notification-badge">{unreadCount}</div>
               )}
