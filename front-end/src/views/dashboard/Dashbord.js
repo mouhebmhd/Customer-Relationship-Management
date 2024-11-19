@@ -4,12 +4,12 @@ import TopBar from '../../components/sidenav/TopNav';
 import '../../style/viewsStyle/dashbored.css';
 import Header from './HeaderDash';
 import SalesSection from './SalesSection';
+import CommandStatsChart from "./commandsCharts";
 import InvoicesSection from './InvoicesSection';
 import ProductsSection from './ProductsSection';
 import { MdOutlineCrisisAlert } from "react-icons/md";
-import { TbSitemap } from "react-icons/tb";
-
-import { TbFileInvoice } from "react-icons/tb";
+import { TbSitemap, TbFileInvoice } from "react-icons/tb";
+import { FaChartBar } from "react-icons/fa";
 
 function Dashbord() {
     const [selectedSection, setSelectedSection] = useState('sales'); // State for selected section
@@ -44,13 +44,20 @@ function Dashbord() {
                             <TbSitemap className='mx-1'/>
                             Products Section
                         </button>
+                        <button
+                            className={`btn ${selectedSection === 'commands' ? 'btn-primary' : 'btn-secondary'}`}
+                            onClick={() => setSelectedSection('commands')}
+                        >
+                            <FaChartBar className='mx-1' />
+                            Commands Stats
+                        </button>
                     </div>
                     <div className="container-fluid d-flex justify-content-center">
-                           {/* Conditionally render sections based on selectedSection */}
-                    {selectedSection === 'sales' && <SalesSection />}
-                    {selectedSection === 'invoices' && <InvoicesSection />}
-                    {selectedSection === 'products' && <ProductsSection />}
-                 
+                        {/* Conditionally render sections based on selectedSection */}
+                        {selectedSection === 'sales' && <SalesSection />}
+                        {selectedSection === 'invoices' && <InvoicesSection />}
+                        {selectedSection === 'products' && <ProductsSection />}
+                        {selectedSection === 'commands' && <CommandStatsChart />}
                     </div>
                 </div>
             </div>

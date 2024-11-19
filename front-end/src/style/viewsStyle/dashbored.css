@@ -215,3 +215,10 @@ width :0px;
 .btn:hover {
   opacity: 0.8;
 }
+.statsBarChart
+{
+  width: 80vw !important;
+  position: relative;
+  left: 80px;
+
+}

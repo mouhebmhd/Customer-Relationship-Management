@@ -336,7 +336,35 @@ const getCommandsByCommandId = async (req, res) => {
         res.json(result);
     });
 }
+const getCommandsStats = async (req, res) => {
+    // Construct SQL query with aggregated statistics
+    const sqlQuery = `
+        SELECT 
+            COUNT(*) AS total_commands,
+            SUM(montant_total_commande) AS total_revenue,
+            AVG(montant_total_commande) AS average_command_value,
+            COUNT(CASE WHEN statut_commande = 'enattente' THEN 1 END) AS commands_in_waiting_list,
+            COUNT(CASE WHEN statut_commande = 'traitement' THEN 1 END) AS commands_in_processing,
+            COUNT(CASE WHEN statut_commande = 'expédié' THEN 1 END) AS commands_sent,
+            COUNT(CASE WHEN statut_commande = 'livré' THEN 1 END) AS commands_delivred,
+            COUNT(CASE WHEN metho_delivraison_commande = 'domicile' THEN 1 END) AS home_delivery_count,
+            COUNT(CASE WHEN metho_delivraison_commande = 'surplace' THEN 1 END) AS pickup_delivery_count
+        FROM commande;
+    `;
+
+    // Execute SQL query
+    db.query(sqlQuery, [], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Internal Server Error" });
+        }
+
+        // Send the statistics as a JSON response
+        res.json(result[0]); // result[0] contains the aggregated data
+    });
+};
+
 module.exports = {
     searchCommands, getCustomerByIDCommand, getAllCommands, updateCommandStatus,
-    getCommandsByClientId, getCommandsByCommandId, getTotalAmountAndDeliveryMethod, checkExistingInvoice
+    getCommandsByClientId, getCommandsByCommandId, getTotalAmountAndDeliveryMethod, checkExistingInvoice,getCommandsStats
 }
