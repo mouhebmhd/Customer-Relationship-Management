@@ -18,8 +18,10 @@ const ProductsSection = () => {
     };
 
     return (
+        <div className='productForms d-flex flex-column align-content-center ps-5'>
         <div className="performance-overview">
             <div className="row">
+                {/* First Column: Frequency Selector and Category Chart */}
                 <div className="col-6">
                     <select
                         value={frequencyPeriod}
@@ -44,13 +46,26 @@ const ProductsSection = () => {
                     <h2>{chartsCategories[selectedCategoryChart]?.title}</h2>
                     {chartsCategories[selectedCategoryChart]?.component}
                 </div>
-                <div className="col-4">
+    
+                {/* Second Column: NumberOfProductsByCategoryChart */}
+                <div className="col-6">
                     <NumberOfProductsByCategoryChart />
                 </div>
-                <ProductPredictionForm />
+    
+                
             </div>
+            
         </div>
+        <div className="performance-overview">
+        <div className="row">
+        {/* Third Column: ProductPredictionForm */}
+        <div className="col-12">
+            <ProductPredictionForm />
+        </div></div>
+    </div>
+    </div>
     );
+    
 };
 
 export default ProductsSection;
